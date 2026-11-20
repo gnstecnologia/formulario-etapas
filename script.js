@@ -232,6 +232,7 @@ function postSheet(lead) {
 async function submitLead() {
   const answers = state.answers;
   const mql = MQL_REVENUES.includes(answers.faturamento);
+  const whatsappDigits = answers.whatsapp.replace(/\D/g, '');
 
   try {
     await postSheet({
@@ -256,7 +257,7 @@ async function submitLead() {
     body: JSON.stringify({
       full_name: answers.name,
       email: answers.email,
-      phone: answers.whatsapp,
+      phone: whatsappDigits,
       position: answers.cargo,
       company_name: answers.empresa,
       instagram: answers.instagram,
@@ -270,7 +271,7 @@ async function submitLead() {
   const query = new URLSearchParams({
     nome: answers.name,
     email: answers.email,
-    whatsapp: answers.whatsapp,
+    whatsapp: whatsappDigits,
     cargo: answers.cargo,
     empresa: answers.empresa,
     instagram: answers.instagram,
