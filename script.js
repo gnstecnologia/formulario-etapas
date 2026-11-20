@@ -11,7 +11,6 @@ const MQL_REVENUES = [
 const steps = [
   {
     key: 'name',
-    eyebrow: 'Vamos começar',
     title: 'Qual o seu nome e sobrenome?',
     label: 'Nome e sobrenome',
     placeholder: 'Digite seu nome aqui...',
@@ -23,7 +22,6 @@ const steps = [
   },
   {
     key: 'whatsapp',
-    eyebrow: 'Quase lá',
     title: 'Qual o seu WhatsApp?',
     label: 'WhatsApp',
     placeholder: '(11) 99999-9999',
@@ -35,7 +33,6 @@ const steps = [
   },
   {
     key: 'email',
-    eyebrow: 'Contato',
     title: 'Qual o seu melhor e-mail?',
     label: 'Melhor e-mail',
     placeholder: 'voce@empresa.com.br',
@@ -47,7 +44,6 @@ const steps = [
   },
   {
     key: 'cargo',
-    eyebrow: 'Sobre você',
     title: 'Qual opção descreve melhor o seu cargo?',
     label: 'Cargo',
     type: 'choice',
@@ -62,7 +58,6 @@ const steps = [
   },
   {
     key: 'empresa',
-    eyebrow: 'Sua empresa',
     title: 'Qual o nome da sua empresa?',
     label: 'Nome da empresa',
     placeholder: 'Nome da empresa',
@@ -72,7 +67,6 @@ const steps = [
   },
   {
     key: 'instagram',
-    eyebrow: 'Sua empresa',
     title: 'Qual o @ do Instagram da sua empresa?',
     label: 'Instagram da empresa',
     placeholder: '@suaempresa',
@@ -88,7 +82,6 @@ const steps = [
   },
   {
     key: 'faturamento',
-    eyebrow: 'Última pergunta',
     title: 'Qual o faturamento mensal da sua empresa?',
     label: 'Faturamento mensal',
     type: 'choice',
@@ -108,7 +101,6 @@ const card = document.querySelector('#questionCard');
 const form = document.querySelector('#stepForm');
 const input = document.querySelector('#answerInput');
 const title = document.querySelector('#questionTitle');
-const eyebrow = document.querySelector('#eyebrow');
 const label = document.querySelector('#fieldLabel');
 const counter = document.querySelector('#stepCounter');
 const progressBar = document.querySelector('#progressBar');
@@ -210,7 +202,6 @@ function renderStep(direction = 'forward') {
   card.classList.add(direction === 'forward' ? 'is-leaving' : 'is-entering');
 
   window.setTimeout(() => {
-    eyebrow.textContent = step.eyebrow;
     title.textContent = step.title;
     label.textContent = step.label;
     error.textContent = '';

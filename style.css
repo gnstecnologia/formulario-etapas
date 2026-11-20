@@ -86,13 +86,6 @@ button { cursor: pointer; }
 .question-card { transition: opacity 300ms ease, transform 500ms var(--ease); }
 .question-card.is-leaving { opacity: 0; transform: translateY(-24px); }
 .question-card.is-entering { opacity: 0; transform: translateY(28px); }
-.eyebrow {
-  margin: 0 0 clamp(6px, 1.4vh, 16px);
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
-}
 h1 {
   max-width: 720px;
   margin: 0;
@@ -177,7 +170,7 @@ input.input-error { border-color: var(--danger); animation: shake 360ms ease; }
   gap: 16px;
   padding: clamp(9px, 1.4vh, 13px) 18px;
   border: 1px solid var(--accent);
-  border-radius: 4px;
+  border-radius: 999px;
   color: var(--accent-ink);
   background: var(--accent);
   font-weight: 700;
@@ -204,13 +197,13 @@ input.input-error { border-color: var(--danger); animation: shake 360ms ease; }
   width: 44px;
   height: 44px;
   padding: 0;
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent);
   border-radius: 50%;
-  color: var(--text);
-  background: transparent;
-  transition: border-color 220ms ease, background 220ms ease;
+  color: var(--accent-ink);
+  background: var(--accent);
+  transition: background 220ms ease;
 }
-.back-button:hover { border-color: var(--accent); color: var(--accent); }
+.back-button:hover { background: #ffeac7; }
 .back-button[hidden] { display: none; }
 
 .stepper {
@@ -246,12 +239,26 @@ input.input-error { border-color: var(--danger); animation: shake 360ms ease; }
 @keyframes shake { 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
 
 @media (max-width: 640px) {
-  .app-shell { padding: clamp(14px, 2.4vh, 24px) 22px clamp(12px, 2vh, 22px); }
+  .app-shell { padding: clamp(14px, 2.4vh, 24px) 22px calc(88px + env(safe-area-inset-bottom)); }
   .brand { justify-content: center; }
   .form-stage { padding: 0; }
+  .question-card.is-leaving, .question-card.is-entering { transform: none; }
   .options { grid-template-columns: 1fr; }
   .stepper { display: none; }
-  .actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 0;
+    padding: 14px 22px calc(14px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--bg) 60%, rgba(18, 18, 18, 0));
+    border-top: 1px solid var(--line);
+  }
   .actions.has-back { grid-template-columns: 44px 1fr; }
   .back-button { display: grid; }
   .primary-button { width: 100%; justify-content: center; }
