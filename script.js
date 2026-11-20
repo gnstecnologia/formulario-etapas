@@ -110,6 +110,8 @@ const buttonText = document.querySelector('#buttonText');
 const optionsList = document.querySelector('#optionsList');
 const actions = document.querySelector('.actions');
 const backButton = document.querySelector('#backButton');
+const spinner = document.querySelector('#buttonSpinner');
+const arrow = document.querySelector('.button-arrow');
 const stepperPrev = document.querySelector('#stepperPrev');
 const stepperNext = document.querySelector('#stepperNext');
 
@@ -208,6 +210,8 @@ function renderStep(direction = 'forward') {
     counter.textContent = `${state.current + 1} → ${steps.length}`;
     progressBar.style.width = `${((state.current + 1) / steps.length) * 100}%`;
     buttonText.textContent = state.current === steps.length - 1 ? 'Enviar' : 'OK';
+    spinner.hidden = true;
+    arrow.hidden = false;
 
     if (isChoice) {
       input.hidden = true;
@@ -248,6 +252,10 @@ function postSheet(lead) {
 }
 
 async function submitLead() {
+  buttonText.textContent = 'Enviando...';
+  spinner.hidden = false;
+  arrow.hidden = true;
+
   const answers = state.answers;
   const mql = MQL_REVENUES.includes(answers.faturamento);
   const whatsappDigits = answers.whatsapp.replace(/\D/g, '');
@@ -264,6 +272,9 @@ async function submitLead() {
     });
   } catch (caught) {
     button.disabled = false;
+    buttonText.textContent = 'Enviar';
+    spinner.hidden = true;
+    arrow.hidden = false;
     error.textContent = 'Não foi possível enviar agora. Tente novamente.';
     return;
   }
