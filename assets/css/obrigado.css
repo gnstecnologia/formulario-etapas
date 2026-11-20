@@ -184,13 +184,6 @@ body {
   box-shadow: 0 12px 40px -12px #25d36699;
 }
 .obrigado__wa i { font-size: 1.25rem; }
-.obrigado__back {
-  margin-top: 1.5rem;
-  color: var(--muted);
-  font-size: 0.9rem;
-  text-decoration: none;
-}
-.obrigado__back:hover { color: var(--accent); }
 .obrigado-footer {
   padding: 1.5rem;
   text-align: center;
