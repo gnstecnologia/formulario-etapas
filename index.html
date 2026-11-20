@@ -17,8 +17,7 @@
       </div>
 
       <header class="brand" aria-label="Marca">
-        <span class="brand__mark">D</span>
-        <span class="brand__name">DON</span>
+        <img class="brand__logo" src="./logo-genesis.png" alt="Genesis Company" />
       </header>
 
       <section class="form-stage" id="formStage" aria-live="polite">
@@ -26,7 +25,6 @@
         <div class="question-card is-active" id="questionCard">
           <p class="eyebrow" id="eyebrow">Vamos começar</p>
           <h1 id="questionTitle">Qual o seu nome e sobrenome?</h1>
-          <p class="question-help" id="questionHelp">Digite seu nome completo para continuarmos.</p>
 
           <form id="stepForm" novalidate>
             <label class="sr-only" id="fieldLabel" for="answerInput">Nome e sobrenome</label>
@@ -44,6 +42,12 @@
             <ul class="options" id="optionsList" role="listbox" aria-labelledby="questionTitle" hidden></ul>
 
             <div class="actions">
+              <button class="back-button" id="backButton" type="button" aria-label="Pergunta anterior">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M19 12H5" />
+                  <path d="m12 19-7-7 7-7" />
+                </svg>
+              </button>
               <button class="primary-button" id="continueButton" type="submit">
                 <span id="buttonText">OK</span>
                 <span class="button-arrow" aria-hidden="true">↵</span>
@@ -54,10 +58,18 @@
         </div>
       </section>
 
-      <footer class="footer-note">
-        <span>●</span>
-        <span>Preenchimento rápido e seguro</span>
-      </footer>
+      <div class="stepper" role="group" aria-label="Navegação entre perguntas">
+        <button class="stepper__btn" id="stepperPrev" type="button" aria-label="Pergunta anterior">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m18 15-6-6-6 6" />
+          </svg>
+        </button>
+        <button class="stepper__btn" id="stepperNext" type="button" aria-label="Próxima pergunta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+      </div>
     </main>
     <script src="./script.js"></script>
   </body>

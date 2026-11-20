@@ -13,7 +13,6 @@ const steps = [
     key: 'name',
     eyebrow: 'Vamos começar',
     title: 'Qual o seu nome e sobrenome?',
-    help: 'Digite seu nome completo para continuarmos.',
     label: 'Nome e sobrenome',
     placeholder: 'Digite seu nome aqui...',
     type: 'text',
@@ -26,7 +25,6 @@ const steps = [
     key: 'whatsapp',
     eyebrow: 'Quase lá',
     title: 'Qual o seu WhatsApp?',
-    help: 'Informe um número com DDD para entrarmos em contato.',
     label: 'WhatsApp',
     placeholder: '(11) 99999-9999',
     type: 'tel',
@@ -39,7 +37,6 @@ const steps = [
     key: 'email',
     eyebrow: 'Contato',
     title: 'Qual o seu melhor e-mail?',
-    help: 'Usaremos para enviar o resumo do diagnóstico.',
     label: 'Melhor e-mail',
     placeholder: 'voce@empresa.com.br',
     type: 'email',
@@ -52,7 +49,6 @@ const steps = [
     key: 'cargo',
     eyebrow: 'Sobre você',
     title: 'Qual opção descreve melhor o seu cargo?',
-    help: 'Escolha a opção que mais se aproxima da sua função.',
     label: 'Cargo',
     type: 'choice',
     options: [
@@ -68,7 +64,6 @@ const steps = [
     key: 'empresa',
     eyebrow: 'Sua empresa',
     title: 'Qual o nome da sua empresa?',
-    help: 'Como sua empresa é conhecida no mercado.',
     label: 'Nome da empresa',
     placeholder: 'Nome da empresa',
     type: 'text',
@@ -79,7 +74,6 @@ const steps = [
     key: 'instagram',
     eyebrow: 'Sua empresa',
     title: 'Qual o @ do Instagram da sua empresa?',
-    help: 'Se não tiver, pode digitar o nome de usuário mesmo assim.',
     label: 'Instagram da empresa',
     placeholder: '@suaempresa',
     type: 'text',
@@ -96,7 +90,6 @@ const steps = [
     key: 'faturamento',
     eyebrow: 'Última pergunta',
     title: 'Qual o faturamento mensal da sua empresa?',
-    help: 'Isso nos ajuda a preparar o diagnóstico certo para o seu momento.',
     label: 'Faturamento mensal',
     type: 'choice',
     options: [
@@ -115,7 +108,6 @@ const card = document.querySelector('#questionCard');
 const form = document.querySelector('#stepForm');
 const input = document.querySelector('#answerInput');
 const title = document.querySelector('#questionTitle');
-const help = document.querySelector('#questionHelp');
 const eyebrow = document.querySelector('#eyebrow');
 const label = document.querySelector('#fieldLabel');
 const counter = document.querySelector('#stepCounter');
@@ -124,6 +116,40 @@ const error = document.querySelector('#errorMessage');
 const button = document.querySelector('#continueButton');
 const buttonText = document.querySelector('#buttonText');
 const optionsList = document.querySelector('#optionsList');
+const actions = document.querySelector('.actions');
+const backButton = document.querySelector('#backButton');
+const stepperPrev = document.querySelector('#stepperPrev');
+const stepperNext = document.querySelector('#stepperNext');
+
+function isCurrentStepValid() {
+  const step = steps[state.current];
+  const raw = step.type === 'choice' ? state.answers[step.key] || '' : input.value.trim();
+  if (!raw) return false;
+  const value = step.normalize ? step.normalize(raw) : raw;
+  return step.validate(value) === '';
+}
+
+function updateNav() {
+  const isFirst = state.current === 0;
+  const isLast = state.current === steps.length - 1;
+  const canAdvance = isCurrentStepValid() && !isLast;
+
+  stepperPrev.disabled = isFirst;
+  stepperNext.disabled = !canAdvance;
+  backButton.hidden = isFirst;
+  actions.classList.toggle('has-back', !isFirst);
+}
+
+function goBack() {
+  if (state.current === 0) return;
+  state.current -= 1;
+  renderStep('backward');
+}
+
+function goForward() {
+  if (state.current === steps.length - 1) return;
+  form.requestSubmit();
+}
 
 function formatPhone(value) {
   const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -171,6 +197,7 @@ function selectOption(step, value) {
   optionsList.querySelectorAll('.option').forEach((optionButton) => {
     optionButton.setAttribute('aria-selected', String(optionButton.dataset.value === value));
   });
+  updateNav();
   button.focus({ preventScroll: true });
 }
 
@@ -185,7 +212,6 @@ function renderStep(direction = 'forward') {
   window.setTimeout(() => {
     eyebrow.textContent = step.eyebrow;
     title.textContent = step.title;
-    help.textContent = step.help;
     label.textContent = step.label;
     error.textContent = '';
     counter.textContent = `${state.current + 1} → ${steps.length}`;
@@ -214,6 +240,7 @@ function renderStep(direction = 'forward') {
 
     card.classList.remove('is-leaving', 'is-entering');
     card.classList.add('is-active');
+    updateNav();
   }, 290);
 }
 
@@ -288,7 +315,12 @@ input.addEventListener('input', () => {
   if (step.key === 'whatsapp') input.value = formatPhone(input.value);
   error.textContent = '';
   input.classList.remove('input-error');
+  updateNav();
 });
+
+backButton.addEventListener('click', goBack);
+stepperPrev.addEventListener('click', goBack);
+stepperNext.addEventListener('click', goForward);
 
 document.addEventListener('keydown', (event) => {
   const step = steps[state.current];
