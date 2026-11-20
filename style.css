@@ -262,6 +262,7 @@ input.input-error { border-color: var(--danger); animation: shake 360ms ease; }
   .actions.has-back { grid-template-columns: 44px 1fr; }
   .back-button { display: grid; }
   .primary-button { width: 100%; justify-content: center; }
+  .button-arrow { display: none; }
   .hint { display: none; }
 }
 
